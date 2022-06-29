@@ -1,11 +1,20 @@
 import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { Form } from "./components/Form/Form";
 import { Posts } from "./components/Posts/Posts";
 import "./App.css"
 
 import memories from "./images/memories.png";
+import { getPosts } from "./actions/posts";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() =>{
+    dispatch(getPosts())
+  },[dispatch])
+
   return (
     <Container maxWidth="lg">
       <AppBar className="appbar" position="static" color="inherit">
@@ -22,7 +31,7 @@ function App() {
             alignItems="stretch"
             spacing="3"
           >
-            <Grid item xs={12} sm={7}>
+            <Grid item xs={12} sm={8}>
               <Posts />
             </Grid>
             <Grid item xs={12} sm={4}>

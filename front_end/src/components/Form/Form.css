@@ -1,0 +1,22 @@
+.create-post {
+    padding: 20px
+}
+
+.create-post .create-post--form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.create-post .create-post--form .post-textfield {
+    margin: 10px 0;
+}
+
+.create-post .button-submit {
+    margin-bottom: 10px
+}
+
+.create-post .create-post--fileInput {
+    width: 100%;
+    margin-bottom: 10px
+}
