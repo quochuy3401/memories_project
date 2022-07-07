@@ -98,7 +98,7 @@ export const Form = () => {
           variant="contained"
           color="secondary"
           size="small"
-          type="submit"
+          type="button"
           fullWidth
           onClick={handleClear}
         >

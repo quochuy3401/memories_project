@@ -1,5 +1,6 @@
 .create-post {
-    padding: 20px
+    padding: 20px;
+    /* font-size: 0.875rem !important; */
 }
 
 .create-post .create-post--form {

@@ -1,0 +1,11 @@
+.card-post .bold-text {
+    font-weight: bold;
+    color: #333;
+}
+
+.card-post .post-tags {
+    color: blue
+}
+.card-post .card-icons{
+    justify-content: space-between;
+}
