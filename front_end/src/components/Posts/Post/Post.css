@@ -6,6 +6,11 @@
 .card-post .post-tags {
     color: blue
 }
-.card-post .card-icons{
+
+.card-post .card-icons {
     justify-content: space-between;
+}
+
+.card-post a {
+    text-decoration: none;
 }

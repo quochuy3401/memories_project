@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import {
   Card,
   CardActions,
@@ -19,10 +20,29 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { red } from "@mui/material/colors";
 import moment from "moment";
 import "./Post.css";
+import { likePost, deletePost } from "../../../actions/posts";
 
 export const Post = (props) => {
   const { post, setCurrentId } = props;
-  const {_id, creator, title, content, tags, selectedFile, likeCount, createdAt } = post;
+  const {
+    _id,
+    creator,
+    title,
+    content,
+    tags,
+    selectedFile,
+    likeCount,
+    createdAt,
+  } = post;
+  const dispatch = useDispatch();
+
+  const handleLikePost = () => {
+    dispatch(likePost(_id));
+  };
+
+  const handleDelete = () => {
+    dispatch(deletePost(_id));
+  };
 
   return (
     <Card className="card-post">
@@ -52,15 +72,17 @@ export const Post = (props) => {
         height="500"
       />
       <CardContent>
-        <Typography className="bold-text" variant="body2">
-          {likeCount > 1 ? `${likeCount} likes` : `${likeCount} like`}
-        </Typography>
+        {likeCount > 0 && (
+          <Typography className="bold-text" variant="body2">
+            {likeCount > 1 ? `${likeCount} likes` : `${likeCount} like`}
+          </Typography>
+        )}
         <Typography variant="body2" color="text.secondary">
           <span className="bold-text">{creator}</span> &nbsp;{content} <br />
           <span className="post-tags">
             {tags.map((tag, index) => (
               <a href="#" key={index}>
-                #{tag}{" "}
+                #{tag}
               </a>
             ))}
           </span>
@@ -68,12 +90,7 @@ export const Post = (props) => {
       </CardContent>
       <CardActions className="card-icons">
         <div>
-          <IconButton
-            aria-label="add to favorites"
-            onClick={() => {
-              console.log("like");
-            }}
-          >
+          <IconButton aria-label="add to favorites" onClick={handleLikePost}>
             <FavoriteBorderIcon />
           </IconButton>
           <IconButton aria-label="comment">
@@ -82,12 +99,7 @@ export const Post = (props) => {
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
-          <IconButton
-            aria-label="delete"
-            onClick={() => {
-              console.log("delete");
-            }}
-          >
+          <IconButton aria-label="delete" onClick={handleDelete}>
             <DeleteOutlineOutlinedIcon />
           </IconButton>
         </div>

@@ -92,7 +92,9 @@ export const Form = (props) => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={handleChange}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
         <div className="create-post--fileInput">
           <FileBase
