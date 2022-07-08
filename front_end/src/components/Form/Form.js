@@ -1,32 +1,51 @@
 import { TextField, Button, Typography, Paper } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
 
 import "./Form.css";
 
-export const Form = () => {
-  const [postData, setPostData] = useState({
+export const Form = (props) => {
+  const { currentId, setCurrentId } = props;
+  const defaultValues = {
     creator: "",
     title: "",
-    message: "",
+    content: "",
     tags: "",
     selectedFile: "",
-  });
-
+  };
+  const selectedPost = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
   const dispatch = useDispatch();
+
+  const [postData, setPostData] = useState(defaultValues);
+
+  useEffect(() => {
+    if (selectedPost) {
+      setPostData(selectedPost);
+    }
+  }, [selectedPost]);
 
   const handleChange = (e) => {
     setPostData({ ...postData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost(postData));
+  const handleClear = () => {
+    setCurrentId(null);
+    setPostData(defaultValues);
   };
 
-  const handleClear = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+    handleClear();
+  };
 
   return (
     <Paper className="create-post">
@@ -57,13 +76,13 @@ export const Form = () => {
         />
         <TextField
           className="post-textfield"
-          name="message"
+          name="content"
           variant="outlined"
-          label="Message"
+          label="Content"
           multiline
           maxRows={3}
           fullWidth
-          value={postData.message}
+          value={postData.content}
           onChange={handleChange}
         />
         <TextField
