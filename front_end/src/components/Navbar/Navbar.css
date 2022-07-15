@@ -1,0 +1,39 @@
+nav {
+    height: 60px;
+    box-shadow: 0 2px 2px -2px rgb(212, 212, 212);
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    background-color: #fff;
+    top: 0;
+    left: 0;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.nav-gap {
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.nav-list ul {
+    display: flex;
+    list-style: none;
+}
+
+.nav-list ul li svg {
+    width: 30px;
+    height: 30px;
+}
+
+.nav-list ul li:not(:first-child) {
+    margin-left: 1rem;
+}
+
+.nav-list ul li button{
+    background: none;
+}

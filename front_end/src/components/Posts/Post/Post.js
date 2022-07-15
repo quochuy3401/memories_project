@@ -9,9 +9,9 @@ import {
   Avatar,
   CardHeader,
 } from "@mui/material";
-import { DeleteIcon, MoreHorizIcon } from "@mui/icons-material";
+// import { DeleteIcon, MoreHorizIcon } from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -81,6 +81,7 @@ export const Post = (props) => {
           <span className="bold-text">{creator}</span> &nbsp;{content} <br />
           <span className="post-tags">
             {tags.map((tag, index) => (
+              // eslint-disable-next-line
               <a href="#" key={index}>
                 #{tag}
               </a>
