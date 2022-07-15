@@ -7,13 +7,12 @@ import ProtectedRoutes from "./utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 
 function App() {
-  const user = useSelector((state) => state.user);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/auth" element={<Auth />} />
-        <Route element={<ProtectedRoutes />} user={user}>
+        <Route element={<ProtectedRoutes />} >
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home />} />
           </Route>
