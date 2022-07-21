@@ -1,8 +1,14 @@
-import React from "react";
-import { Outlet, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
+import { useSelector ,useDispatch} from "react-redux";
+import {autoSignIn} from "../actions/user"
 
 export default function ProtectedRoutes() {
-  const user = useSelector((state) => state.user);
-  return user ? <Outlet /> : <Navigate to="/auth" />;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const profile = JSON.parse(localStorage.getItem("profile"));
+  useEffect(() => {
+    dispatch(autoSignIn());
+  }, [ dispatch, location]);
+  return profile ? <Outlet /> : <Navigate to="/sign-in" />;
 }

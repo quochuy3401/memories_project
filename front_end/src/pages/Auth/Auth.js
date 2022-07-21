@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Auth.css";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { autoSignIn } from "../../actions/user";
 
 export default function Auth() {
-  const user = useSelector((state) => state.user);
-  return !user ? <div>Auth</div> : <Navigate to="/" />;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const profile = JSON.parse(localStorage.getItem("profile"));
+  useEffect(() => {
+    dispatch(autoSignIn());
+  }, [ dispatch, location]);
+  return profile ? <Navigate to="/" /> : <Outlet />;
 }
 

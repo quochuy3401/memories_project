@@ -6,21 +6,22 @@ import { createPost, updatePost } from "../../actions/posts";
 
 import "./Form.css";
 
+const defaultValues = {
+  title: "",
+  content: "",
+  tags: "",
+  selectedFile: "",
+};
+
 export const Form = (props) => {
   const { currentId, setCurrentId } = props;
-  const defaultValues = {
-    creator: "",
-    title: "",
-    content: "",
-    tags: "",
-    selectedFile: "",
-  };
   const selectedPost = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
   const dispatch = useDispatch();
 
   const [postData, setPostData] = useState(defaultValues);
+  const user = JSON.parse(localStorage.getItem("profile"))?.user;
 
   useEffect(() => {
     if (selectedPost) {
@@ -40,9 +41,9 @@ export const Form = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost(currentId,{... postData, name : user?.firstName + user?.lastName}));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({... postData, name : user?.firstName + user?.lastName}));
     }
     handleClear();
   };
@@ -56,15 +57,6 @@ export const Form = (props) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">Creating a Memory</Typography>
-        <TextField
-          className="post-textfield"
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={handleChange}
-        />
         <TextField
           className="post-textfield"
           name="title"

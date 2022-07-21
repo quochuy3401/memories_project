@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardActions,
@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 // import { DeleteIcon, MoreHorizIcon } from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -27,14 +27,16 @@ export const Post = (props) => {
   const {
     _id,
     creator,
+    name,
     title,
     content,
     tags,
     selectedFile,
-    likeCount,
+    likes,
     createdAt,
   } = post;
   const dispatch = useDispatch();
+  const { user } = JSON.parse(localStorage.getItem("profile"));
 
   const handleLikePost = () => {
     dispatch(likePost(_id));
@@ -49,7 +51,7 @@ export const Post = (props) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {creator[0]}
+            {name[0]}
           </Avatar>
         }
         action={
@@ -72,13 +74,15 @@ export const Post = (props) => {
         height="500"
       />
       <CardContent>
-        {likeCount > 0 && (
+        {likes.length > 0 && (
           <Typography className="bold-text" variant="body2">
-            {likeCount > 1 ? `${likeCount} likes` : `${likeCount} like`}
+            {likes.length > 1
+              ? `${likes.length} likes`
+              : `${likes.length} like`}
           </Typography>
         )}
         <Typography variant="body2" color="text.secondary">
-          <span className="bold-text">{creator}</span> &nbsp;{content} <br />
+          <span className="bold-text">{name}</span> &nbsp;{content} <br />
           <span className="post-tags">
             {tags.map((tag, index) => (
               // eslint-disable-next-line
@@ -92,7 +96,11 @@ export const Post = (props) => {
       <CardActions className="card-icons">
         <div>
           <IconButton aria-label="add to favorites" onClick={handleLikePost}>
-            <FavoriteBorderIcon />
+            {likes.findIndex((id) => id === user._id) > -1 ? (
+              <FavoriteIcon color="error"/>
+            ) : (
+              <FavoriteBorderIcon />
+            )}
           </IconButton>
           <IconButton aria-label="comment">
             <ChatBubbleOutlineIcon />

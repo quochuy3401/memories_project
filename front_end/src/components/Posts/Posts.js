@@ -5,8 +5,6 @@ import { Post } from "./Post/Post";
 export const Posts = (props) => {
   const { setCurrentId } = props;
   const posts = useSelector((state) => state.posts);
-
-  console.log(posts);
   // props drilling
 
   return !posts.length ? (

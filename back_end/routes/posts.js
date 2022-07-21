@@ -4,15 +4,16 @@ import {
   createPost,
   updatePost,
   likePost,
-  deletePost
+  deletePost,
 } from "../controllers/posts.js";
+import authMiddleware from "../middleware/Auth.js";
 
 const router = express.Router();
 
 router.get("/", getPosts);
-router.post("/", createPost);
-router.patch("/:id", updatePost);
-router.patch("/:id/like-post", likePost);
-router.delete("/:id", deletePost);
+router.post("/", authMiddleware, createPost);
+router.patch("/:id", authMiddleware, updatePost);
+router.patch("/:id/likePost", authMiddleware, likePost);
+router.delete("/:id", authMiddleware, deletePost);
 
 export default router;

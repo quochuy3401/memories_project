@@ -12,7 +12,7 @@ export const getPosts = async (req, res) => {
 
 export const createPost = async (req, res) => {
   const post = req.body;
-  const newPost = new PostMessage(post);
+  const newPost = new PostMessage({ ...post, creator: req.userId });
   try {
     await newPost.save();
     res.status(201).json(newPost);
@@ -39,11 +39,18 @@ export const likePost = async (req, res) => {
     return res.status(404).send("Not found any post matching this id");
   }
   const selectedPost = await PostMessage.findById(_id);
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    _id,
-    { likeCount: selectedPost.likeCount + 1 },
-    { new: true }
-  );
+  const index = selectedPost.likes.findIndex((id) => id === req.userId);
+  if (index === -1) {
+    // not like yet
+    selectedPost.likes.push(req.userId);
+  } else {
+    selectedPost.likes = selectedPost.likes.filter(
+      (id) => id !== String(req.userId)
+    );
+  }
+  const updatedPost = await PostMessage.findByIdAndUpdate(_id, selectedPost, {
+    new: true,
+  });
   return res.status(200).json(updatedPost);
 };
 
@@ -55,3 +62,18 @@ export const deletePost = async (req, res) => {
   await PostMessage.findByIdAndRemove(_id);
   return res.status(200).send({ message: "Delete post successfully" });
 };
+
+// const isLiked = async (post,userId) => {
+//   const index = selectedPost.likes.findIndex((id) => id === req.userId);
+//   let isLiked;
+//   if (index === -1) {
+//     // not like yet
+//     selectedPost.likes.push(req.userId);
+//     isLiked = true;
+//   } else {
+//     selectedPost.likes = selectedPost.likes.filter(
+//       (id) => id !== String(req.userId)
+//     );
+//     isLiked = false;
+//   }
+// };
